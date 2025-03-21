@@ -5,9 +5,11 @@ export const Titlecard = styled.h1`
 `
 
 export const ContainerList = styled.div`
+  max-width: 100dvw;
+  height: auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin: 2rem;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 3rem 6rem;
 
   gap: 3rem;
 
