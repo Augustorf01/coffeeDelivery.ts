@@ -22,10 +22,10 @@ import { ProductModel } from "../../compartilhados/product"
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { rootReducer } from '../../../redux/root-reducer';
-import { cartReducer } from '../../../redux/products-cart/reducer';
 import { CartProductItem } from './cart-product-item';
 
 {/* Formulário de checkout */}
+  
 export function Checkout() {
     const navigate = useNavigate()
 
@@ -33,7 +33,7 @@ export function Checkout() {
         navigate('/success')
     }
 
-    const { products } = useSelector((rootReducer) => cartReducer)
+    const { products } = useSelector((state: ReturnType<typeof rootReducer>) => state.cartReducer)
 
     return (
         <>
@@ -84,7 +84,7 @@ export function Checkout() {
                 
                 <ListCheckout>
                     {products.map((product) => <CartProductItem product={product}/>)}
-                    {/* <CartItem>
+                    <CartItem>
                         <div className='productBlock'>
                             <img src={ProductModel[0].ilustration} alt="" />
                             <div>
@@ -100,9 +100,9 @@ export function Checkout() {
                         </div>
                         <span>R$ 9,90</span>
                         <div />
-                    </CartItem> */}
+                    </CartItem>
 
-                    <hr /> {/* Para cada produto exibido na lista, deve ter um hr em baixo  */}
+                    <hr />Para cada produto exibido na lista, deve ter um hr em baixo 
 
                     <div className="resumo">
                         <Info>
