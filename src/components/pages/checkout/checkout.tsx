@@ -50,11 +50,11 @@ export function Checkout() {
   };
   
   // Calculate total price
-  const subtotal = products.reduce((acc, product) => {
+  const subtotal = (products || []).map((product) => {
     const price = typeof product.price === 'number' ? product.price : 0;
     const quantity = product.quantity || 1;
-    return acc + (price * quantity);
-  }, 0);
+    return (price * quantity);
+  }).reduce((acc, curr) => acc + curr, 0);
   
   const deliveryFee = 3.50;
   const total = subtotal + deliveryFee;
@@ -147,7 +147,7 @@ export function Checkout() {
           
           {/* Right Column - Cart Summary */}
           <CartSummaryContainer>
-            {products.length > 0 ? (
+            {products?.length > 0 ? (
               <>
                 <CartItemsList>
                   {products.map((product) => (
