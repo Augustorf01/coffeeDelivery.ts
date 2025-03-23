@@ -5,7 +5,7 @@ import { QuantityButtonProps } from '../../pages/home/QuantityButton';
 export const ProductListSection = styled.section`
   ${container}
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   padding: 2rem 0 4rem;
 `;
 

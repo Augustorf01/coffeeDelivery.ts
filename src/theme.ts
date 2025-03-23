@@ -26,7 +26,7 @@ export const theme = {
   },
   
   breakpoints: {
-    mobile: '480px',
+    mobile: '430px',
     tablet: '768px',
     laptop: '1024px',
     desktop: '1200px',
@@ -96,7 +96,7 @@ export const container = css`
   padding: 0 ${theme.spacing.md};
   
   ${media.mobile`
-    max-width: 100%;
+    max-width: 430px;
   `}
   
   ${media.tablet`
