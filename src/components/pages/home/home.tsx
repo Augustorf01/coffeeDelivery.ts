@@ -4,6 +4,7 @@ import { NavBar } from "../../compartilhados/navbar";
 import { Introduction } from "./introduction";
 import { ProductCardComponent } from "./product-list";
 import { ProductModel } from "../../compartilhados/product";
+import { ProductListSection } from "../../styles/home/product-list.style";
 
 const HomeContainer = styled.div`
   width: 100%;
@@ -19,9 +20,12 @@ export const HomePage = () => {
       <NavBar />
       <MainContent>
         <Introduction />
-        {ProductModel.map((product) => (
-          <ProductCardComponent key={product.id} product={product} />
-        ))}
+        <ProductListSection>
+          {ProductModel.map((product) => (
+              <ProductCardComponent key={product.id} product={product} />
+
+            ))}
+        </ProductListSection>
       </MainContent>
     </HomeContainer>
   );

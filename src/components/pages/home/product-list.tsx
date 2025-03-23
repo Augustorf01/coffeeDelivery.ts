@@ -12,7 +12,8 @@ import {
   ProductFooter,
   ProductPrice,
   ProductActions,
-  AddToCartButton
+  AddToCartButton,
+  ProductListSection
 } from '../../styles/home/product-list.style';
 import { Product, useCart } from '../../../redux';
 
@@ -34,32 +35,34 @@ export function ProductCardComponent({ product }: ProductCardProps) {
     : formatPrice(product.price).replace('R$', '');
 
   return (
-    <ProductCard>
-      <ProductImage>
-        <img src={product.ilustration} alt={product.name} />
-      </ProductImage>
+    <ProductListSection>
+      <ProductCard>
+        <ProductImage>
+          <img src={product.ilustration} alt={product.name} />
+        </ProductImage>
 
-      <ProductTags>
-        <ProductTag>{product.type}</ProductTag>
-      </ProductTags>
+        <ProductTags>
+          <ProductTag>{product.type}</ProductTag>
+        </ProductTags>
 
-      <ProductName>{product.name}</ProductName>
-      <ProductDescription>{product.description}</ProductDescription>
+        <ProductName>{product.name}</ProductName>
+        <ProductDescription>{product.description}</ProductDescription>
 
-      <ProductFooter>
-        <ProductPrice>
-          R$ <span>{displayPrice}</span>
-        </ProductPrice>
-        <ProductActions>
-          <QuantityButton 
-            initialQuantity={quantity} 
-            onQuantityChange={setQuantity} 
-          />
-          <AddToCartButton onClick={handleAddToCart}>
-            <img src={shopwhite} alt="Add to cart" />
-          </AddToCartButton>
-        </ProductActions>
-      </ProductFooter>
-    </ProductCard>
+        <ProductFooter>
+          <ProductPrice>
+            R$ <span>{displayPrice}</span>
+          </ProductPrice>
+          <ProductActions>
+            <QuantityButton 
+              initialQuantity={quantity} 
+              onQuantityChange={setQuantity} 
+            />
+            <AddToCartButton onClick={handleAddToCart}>
+              <img src={shopwhite} alt="Add to cart" />
+            </AddToCartButton>
+          </ProductActions>
+        </ProductFooter>
+      </ProductCard>
+    </ProductListSection>
   );
 }
