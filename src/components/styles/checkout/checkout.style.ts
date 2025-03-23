@@ -1,274 +1,291 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { container, media, flexBetween, flexCenter, flexColumn, card } from '../../../theme';
 
-export const Title = styled.h4`
-    display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
-
-    font-size: 1.2rem ;
-    margin: 1rem 24rem 1rem 10rem;
-`
 export const CheckoutContainer = styled.div`
-    /* max-width: 80rem; */
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto auto;
-    justify-content: center;
-    grid-gap: 3.5rem;
+  ${container}
+  padding: 2rem 0 4rem;
+`;
 
-    margin: 0 10rem
-`
+export const CheckoutTitle = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  
+  ${media.mobile`
+    font-size: 1.25rem;
+    text-align: center;
+  `}
+`;
 
-// Div que envolve todas as sections
-export const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
+export const CheckoutGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+  
+  ${media.laptop`
+    gap: 1.5rem;
+  `}
+  
+  ${media.belowTablet`
+    grid-template-columns: 1fr;
+  `}
+`;
 
-    grid-gap: 1rem;
-    border-radius: 6px;
+// Left Column - Forms
+export const FormsContainer = styled.div`
+  ${flexColumn}
+  gap: 1rem;
+`;
 
-    h4, span {
-        margin-left: 1rem;
-    }
-`
+export const FormCard = styled.div`
+  ${card}
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+`;
 
-// Formulário de Endereço
-export const AdressForm = styled.form`
-    width: 42rem;
-    border-radius: 6px;
-    background-color: var(--base-card);
+export const FormHeader = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  
+  img {
+    color: ${({ theme }) => theme.colors.yellowDark};
+  }
+`;
 
-    
-    .adressDiv {
-        margin: 1rem
-    }
+export const FormHeaderContent = styled.div`
+  h3 {
+    font-size: 1rem;
+    color: ${({ theme }) => theme.colors.baseSubtitle};
+    font-weight: 500;
+  }
+  
+  p {
+    font-size: 0.875rem;
+    color: ${({ theme }) => theme.colors.baseText};
+  }
+`;
 
-    [name="uf"] {
-        width: 3.75rem;
-    }
+export const AddressFormGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+  
+  ${media.mobile`
+    grid-template-columns: 1fr;
+  `}
+`;
 
-    [name="cep"] {
-        width: 12.5rem;
-    }
+export const FormGroup = styled.div<{ span?: number }>`
+  grid-column: span ${({ span }) => span || 1};
+  
+  ${media.mobile`
+    grid-column: span 1;
+  `}
+`;
 
-    [name="numero"] {
-        width: 12.5rem;
-    }
+export const Input = styled.input`
+  width: 100%;
+  padding: 0.75rem;
+  background-color: ${({ theme }) => theme.colors.baseInput};
+  border: 1px solid ${({ theme }) => theme.colors.baseButton};
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.colors.baseText};
+  
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.yellowDark};
+  }
+  
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.baseLabel};
+  }
+`;
 
-    [name="complemento"] {
-        width: 21.75rem;
-    }
+export const PaymentMethodsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  
+  ${media.belowTablet`
+    grid-template-columns: 1fr;
+  `}
+`;
 
-    [name="rua"] {
-        width: 35rem;
-    } 
+export const PaymentMethodButton = styled.button<{ isActive?: boolean }>`
+  ${flexBetween}
+  background-color: ${({ isActive, theme }) => 
+    isActive ? theme.colors.purpleLight : theme.colors.baseButton};
+  border: 1px solid ${({ isActive, theme }) => 
+    isActive ? theme.colors.purple : theme.colors.baseButton};
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+  padding: 1rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: ${({ isActive, theme }) => 
+      isActive ? theme.colors.purpleLight : theme.colors.baseHover};
+  }
+  
+  img {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.75rem;
+  }
+`;
 
-    [name="bairro"] {
-        width: 12.5rem;
-    }
+// Right Column - Cart Summary
+export const CartSummaryContainer = styled.div`
+  ${card}
+  border-radius: 6px 36px;
+`;
 
-    [name="cidade"] {
-        width: 17.25rem;
-    }
-`
-
-export const InputAdress = styled.div`
-    margin: 1.5rem;
-    
-        input {
-            border: none;
-            margin-left: 0.5rem;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 6px;
-
-            background-color: var(--base-input);
-            color: var(--base-text);
-            
-            &:focus {
-                border: 1px solid var(--yellow-dark);
-                outline: none;
-            }
-        }
-`
-
-export const ListCheckout = styled.div`
-    display: inline;
-    width: 20rem;
-    height: 18rem;
-    padding: 2.5rem;
-
-    /* align-items: center; */
-    /* margin-left: 1rem; */
-
-    border-radius: 0 3rem;
-    background-color: var(--base-card);
-
-    hr {
-        width: 100%;
-        padding: 0.5px;
-        margin: 2rem 0;
-        background-color: var(--yellow) 50%;
-    }
-
-    img {
-        width: 4rem;
-        height: 4rem;
-        margin-right: 1rem;
-    }
-    
-    /* .product {
-        display: flex;
-        justify-content: space-between;
-
-        span {
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-
-        .productBlock {
-            display: flex;
-            
-            .buttons {
-                display: flex;
-
-                span {
-                    font-size: 1.2rem;
-                    margin: 0rem 0.5rem
-                }
-            }
-        }
-
-    } */
-
-    .resumo {
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        span {
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
-
-        p, span {
-            display: inline;
-        }
-    }
-`
+export const CartItemsList = styled.div`
+  ${flexColumn}
+  gap: 1.5rem;
+`;
 
 export const CartItem = styled.div`
-    display: flex;
-    justify-content: space-between;
+  ${flexBetween}
+  
+  ${media.mobile`
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  `}
+`;
 
-    span {
-        font-size: 1.2rem;
-        font-weight: 500;
-    }
+export const CartItemContent = styled.div`
+  display: flex;
+  gap: 1.25rem;
+  
+  img {
+    width: 4rem;
+    height: 4rem;
+  }
+`;
 
-    .productBlock {
-            /* width: 18rem; */
-            display: flex;
-            
-            .buttons {
-                display: flex;
+export const CartItemInfo = styled.div`
+  ${flexColumn}
+  gap: 0.5rem;
+  
+  p {
+    color: ${({ theme }) => theme.colors.baseSubtitle};
+  }
+`;
 
-                span {
-                    font-size: 1.2rem;
-                    margin: 0rem 0.5rem
-                }
-            }
-        }
-` 
+export const CartItemActions = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  
+  ${media.mobile`
+    margin-top: 0.5rem;
+  `}
+`;
 
-export const TrashButton = styled.button`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3rem;
-    border: none;
-    border-radius: 6px;
-    margin-left: 0.3rem;
+export const RemoveButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: ${({ theme }) => theme.colors.baseButton};
+  border: none;
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+  padding: 0 0.5rem;
+  height: 2rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.baseHover};
+  }
+  
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
+`;
 
-    background-color: var(--base-button);
+export const CartItemPrice = styled.span`
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.baseText};
+  
+  ${media.mobile`
+    align-self: flex-end;
+  `}
+`;
 
-    img {
-        width: 1rem;
-        height: 1rem;
-        margin: 0; 
-    }
+export const Divider = styled.hr`
+  border: none;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.baseButton};
+  margin: 1.5rem 0;
+`;
 
-    &:hover {
-        cursor: pointer;
-        background-color: var(--base-hover);
-        transition: background-color 0.2s ease-in;
-    }
-`
+export const CartSummary = styled.div`
+  ${flexColumn}
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+`;
 
-export const Info = styled.div`
-    max-width: 28rem;
-    display: flex;
-    justify-content: space-between;
-`
+export const SummaryRow = styled.div`
+  ${flexBetween}
+  
+  p {
+    font-size: ${({ theme }) => theme.spacing.sm};
+    color: ${({ theme }) => theme.colors.baseText};
+  }
+  
+  &:last-child {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: ${({ theme }) => theme.colors.baseSubtitle};
+  }
+`;
 
 export const CheckoutButton = styled.button`
-    width: 20rem;
-    height: auto;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: ${({ theme }) => theme.colors.yellow};
+  color: ${({ theme }) => theme.colors.white};
+  border: none;
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.yellowDark};
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+`;
 
-    margin: 1rem 0;
-
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 6px;
-
-    background-color: var(--yellow);
-    color: var(--white);
-
+export const EmptyCartMessage = styled.div`
+  ${flexCenter}
+  ${flexColumn}
+  text-align: center;
+  padding: 2rem;
+  
+  h3 {
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    margin-top: 1rem;
+    color: ${({ theme }) => theme.colors.purple};
+    font-weight: 700;
+    
     &:hover {
-        cursor: pointer;
-        background-color: var(--yellow-dark);
-        transition: background-color 0.2s ease-in;
+      color: ${({ theme }) => theme.colors.purpleDark};
     }
-`
-
-export const PaymentSection = styled.div`
-    width: 40rem;
-    /* margin: 2rem; */
-    padding: 1rem;
-    border-radius: 6px;
-    background-color: var(--base-card);
-
-    h4, span {
-        display: flex;
-        flex-direction: column;
-        }
-
-    button {
-        display: inline-flex;
-        align-items: center;
-
-        margin: 1rem;
-        padding: 0.5rem;
-        gap: 0.5rem;
-
-        border: none;
-        border-radius: 6px;
-        background: var(--base-button);
-
-        font-size: 1rem;
-        font-weight: 500;
-
-        &:hover {
-            border: 1px solid var(--purple);
-            background: var(--purple-light);
-        }
-    }
-
-    img {
-        display: inline-flex;
-    }
-`
+  }
+`;

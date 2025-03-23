@@ -1,64 +1,65 @@
-import { ProductProps } from "../../compartilhados/product"
-import { ContainerButton, ProductContainer, QuantityButtonStyle } from "../../styles/compartilhados/product.style"
-import shopwhite from '../../../assets/icons/shop-white.svg'
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from 'react';
+import { QuantityButton } from './QuantityButton';
+import shopwhite from '../../../assets/icons/shop-white.svg';
 
-// REDUX
-import { useDispatch } from 'react-redux'
-import { addProductToCart } from "../../../redux/products-cart/actions"
+import {
+  ProductCard,
+  ProductImage,
+  ProductTags,
+  ProductTag,
+  ProductName,
+  ProductDescription,
+  ProductFooter,
+  ProductPrice,
+  ProductActions,
+  AddToCartButton
+} from '../../styles/home/product-list.style';
+import { Product, useCart } from '../../../redux';
 
-// Botão para acrescentar ou reduzir a quantidade do item.
-export function QuantityButton() {
-    const [quantity, setQuantity] = useState(1)
-
-    return (
-        <ContainerButton>
-            <QuantityButtonStyle onClick={() => {quantity > 0 ? setQuantity(quantity - 1) : quantity}} disabled={quantity === 0}>
-                <span>-</span>
-            </QuantityButtonStyle>
-            <p>{quantity}</p>
-            <QuantityButtonStyle onClick={() => setQuantity(quantity + 1)}>
-                <span>+</span>
-            </QuantityButtonStyle>
-        </ContainerButton>
-    )
+interface ProductCardProps {
+  product: Product;
 }
 
-// Lista de produtos -> falta editar os types(atributo do objeto Product) para serem exibidos corretamente.
-export const ProductList = (product: ProductProps) => {
-    const nevigate = useNavigate()
+export function ProductCardComponent({ product }: ProductCardProps) {
+  const { addToCart, isInCart, getProductQuantity, formatPrice } = useCart();
+  const [quantity, setQuantity] = useState(isInCart(product.id) ? getProductQuantity(product.id) : 1);
 
-    const dispatch = useDispatch()
-    const handleProductClick = () => {
-        // Adiciona o produto ao carrinho e redireciona para a página de checkout
-        dispatch(addProductToCart(product))
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+  };
 
-        // Atualiza a url para a página de checkout
-        nevigate('/checkout') // Desabilitado para o Redux ser implementado, pois a adição ao carrinho ainda não está disponível
-    }
+  // Format price to display
+  const displayPrice = typeof product.price === 'string' 
+    ? product.price.replace('R$', '') 
+    : formatPrice(product.price).replace('R$', '');
 
-      return  (
-        <>
-            <ProductContainer>
-                <img className='ilustration' src={product.ilustration} alt="" />
+  return (
+    <ProductCard>
+      <ProductImage>
+        <img src={product.ilustration} alt={product.name} />
+      </ProductImage>
 
-                <div className='type'>
-                    <span>{product.type}</span>
-                </div>
+      <ProductTags>
+        <ProductTag>{product.type}</ProductTag>
+      </ProductTags>
 
-                <h3>{product.name}</h3>
-                <p>{product.description}</p>
+      <ProductName>{product.name}</ProductName>
+      <ProductDescription>{product.description}</ProductDescription>
 
-                <div className='bottom'>
-                    <p>{product.price}</p>
-                    <QuantityButton />
-
-                    <button className='carrinho' onClick={handleProductClick}> 
-                        <img src={shopwhite} alt="Carrinho" />
-                    </button>
-                </div>
-            </ProductContainer>
-        </>
-      )
+      <ProductFooter>
+        <ProductPrice>
+          R$ <span>{displayPrice}</span>
+        </ProductPrice>
+        <ProductActions>
+          <QuantityButton 
+            initialQuantity={quantity} 
+            onQuantityChange={setQuantity} 
+          />
+          <AddToCartButton onClick={handleAddToCart}>
+            <img src={shopwhite} alt="Add to cart" />
+          </AddToCartButton>
+        </ProductActions>
+      </ProductFooter>
+    </ProductCard>
+  );
 }

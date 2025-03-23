@@ -1,128 +1,196 @@
-import trash from '../../../assets/icons/trash-icon.svg'
-import credito from '../../../assets/icons/cartao-credito.svg'
-import debito from '../../../assets/icons/cartao-debito.svg'
-import dinheiro from '../../../assets/icons/dinheiro.svg'
-
-import { NavBar } from "../../compartilhados/navbar";
-
-import { AdressForm, 
-        Container, 
-        PaymentSection, 
-        Title, InputAdress, 
-        ListCheckout, 
-        TrashButton, 
-        Info, 
-        CheckoutContainer, 
-        CheckoutButton, 
-        CartItem } from "../../styles/checkout/checkout.style";
-
-import { QuantityButton } from '../home/product-list'
-
-import { ProductModel } from "../../compartilhados/product"
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { rootReducer } from '../../../redux/root-reducer';
+import { cartReducer } from '../../../redux/root-reducer';
+
+// Components
+
+// Assets
+import credito from '../../../assets/icons/cartao-credito.svg';
+import debito from '../../../assets/icons/cartao-debito.svg';
+import dinheiro from '../../../assets/icons/dinheiro.svg';
+
+// Styles
+import {
+  CheckoutContainer,
+  CheckoutTitle,
+  CheckoutGrid,
+  FormsContainer,
+  FormCard,
+  FormHeader,
+  FormHeaderContent,
+  AddressFormGrid,
+  FormGroup,
+  Input,
+  PaymentMethodsContainer,
+  PaymentMethodButton,
+  CartSummaryContainer,
+  CartItemsList,
+  Divider,
+  CartSummary,
+  SummaryRow,
+  CheckoutButton,
+  EmptyCartMessage
+} from '../../styles/checkout/checkout.style';
+import { NavBar } from '../../compartilhados/navbar';
 import { CartProductItem } from './cart-product-item';
 
-{/* Formulário de checkout */}
-  
 export function Checkout() {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { products } = useSelector((state: ReturnType<typeof cartReducer>) => state);
+  const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
+  
+  const handlePaymentMethodSelect = (method: string) => {
+    setPaymentMethod(method);
+  };
+  
+  const goToSuccessPage = () => {
+    // Here you can add validation logic before proceeding
+    navigate('/success');
+  };
+  
+  // Calculate total price
+  const subtotal = products.reduce((acc, product) => {
+    const price = typeof product.price === 'number' ? product.price : 0;
+    const quantity = product.quantity || 1;
+    return acc + (price * quantity);
+  }, 0);
+  
+  const deliveryFee = 3.50;
+  const total = subtotal + deliveryFee;
 
-    const goToSuccessPage = () => {
-        navigate('/success')
-    }
-
-    const { products } = useSelector((state: ReturnType<typeof rootReducer>) => state.cartReducer)
-
-    return (
-        <>
-            <NavBar /> {/* Botão do carrinho deve indicar quantos produtos estão no carrinho */}
-            <Title>Complete seu pedido</Title><Title>CaféList</Title>
-
-            <CheckoutContainer>
-                <Container>
-                    <AdressForm>
-
-                        <div className="adressDiv">
-                            <h4>Endereço de Entrega</h4>
-                            <span>Informe o endereço onde deseja receber seu pedido</span>
-                        </div>
-
-                        <InputAdress>
-                            <input type="text" name="cep" id="" placeholder="CEP" />
-                            <input type="text" name="rua" id="" placeholder="RUA" />
-                            <input type="text" name="numero" id="" placeholder="NÚMERO DE PORTA" />
-                            <input type="text" name="complemento" id="" placeholder="COMPLEMENTO (opicional)" />
-                            <input type="text" name="cidade" id="" placeholder="CIDADE" />
-                            <input type="text" name="bairro" id="" placeholder="BAIRRO" />
-                            <input type="text" name="uf" id="" placeholder="ESTADO" />
-                        </InputAdress>
-
-                    </AdressForm>
-
-                    <PaymentSection>
-                        <h4>Pagamento</h4>
-                        <span>O pagamento é feito na entrega, escolha a forma que deseja pagar</span>
-
-                            <button type="button" value="Cartão de Crédito">
-                                <img src={credito} alt="" />
-                                <p>Cartão de Crédito</p>
-                            </button>
-                            <button type="button" value="Cartão de Débito">
-                                <img src={debito} alt="" />
-                                <p>Cartão de Débito</p>
-                            </button>
-                            <button type="button" value="Dinheiro">
-                                <img src={dinheiro} alt="" />
-                                <p>Dinheiro</p>
-                            </button>
-
-                    </PaymentSection>
-
-                </Container>
+  return (
+    <>
+      <NavBar />
+      <CheckoutContainer>
+        <CheckoutTitle>Complete seu pedido</CheckoutTitle>
+        
+        <CheckoutGrid>
+          {/* Left Column - Forms */}
+          <FormsContainer>
+            {/* Address Form */}
+            <FormCard>
+              <FormHeader>
+                <FormHeaderContent>
+                  <h3>Endereço de Entrega</h3>
+                  <p>Informe o endereço onde deseja receber seu pedido</p>
+                </FormHeaderContent>
+              </FormHeader>
+              
+              <AddressFormGrid>
+                <FormGroup>
+                  <Input type="text" placeholder="CEP" />
+                </FormGroup>
                 
-                <ListCheckout>
-                    {products.map((product) => <CartProductItem product={product}/>)}
-                    <CartItem>
-                        <div className='productBlock'>
-                            <img src={ProductModel[0].ilustration} alt="" />
-                            <div>
-                                <p>Expresso tradicional</p>
-                                <div className="buttons">
-                                    <QuantityButton />
-                                    <TrashButton>
-                                        <img src={trash} alt="" />
-                                        <p>REMOVER</p>
-                                    </TrashButton>
-                                </div>
-                            </div>
-                        </div>
-                        <span>R$ 9,90</span>
-                        <div />
-                    </CartItem>
-
-                    <hr />Para cada produto exibido na lista, deve ter um hr em baixo 
-
-                    <div className="resumo">
-                        <Info>
-                            <p>Total de itens</p>
-                            <span>R$ 10,00</span>
-                        </Info>
-                        <Info>
-                            <p>Entrega</p>
-                            <span>R$ 10,00</span>
-                        </Info>
-                        <Info>
-                            <p>Total</p>
-                            <span>R$ 10,00</span>
-                        </Info>
-                    </div>
-
-                    <CheckoutButton type="submit" onClick={goToSuccessPage}>CONFIRMAR PEDIDO</CheckoutButton>
-                </ListCheckout>
-
-            </CheckoutContainer>
-        </>
-    )
+                <FormGroup span={3}>
+                  <Input type="text" placeholder="Rua" />
+                </FormGroup>
+                
+                <FormGroup>
+                  <Input type="text" placeholder="Número" />
+                </FormGroup>
+                
+                <FormGroup span={2}>
+                  <Input type="text" placeholder="Complemento (opcional)" />
+                </FormGroup>
+                
+                <FormGroup>
+                  <Input type="text" placeholder="Bairro" />
+                </FormGroup>
+                
+                <FormGroup span={2}>
+                  <Input type="text" placeholder="Cidade" />
+                </FormGroup>
+                
+                <FormGroup>
+                  <Input type="text" placeholder="UF" />
+                </FormGroup>
+              </AddressFormGrid>
+            </FormCard>
+            
+            {/* Payment Method */}
+            <FormCard>
+              <FormHeader>
+                <FormHeaderContent>
+                  <h3>Pagamento</h3>
+                  <p>O pagamento é feito na entrega. Escolha a forma que deseja pagar</p>
+                </FormHeaderContent>
+              </FormHeader>
+              
+              <PaymentMethodsContainer>
+                <PaymentMethodButton 
+                  isActive={paymentMethod === 'credit'} 
+                  onClick={() => handlePaymentMethodSelect('credit')}
+                >
+                  <img src={credito} alt="Credit card" />
+                  Cartão de crédito
+                </PaymentMethodButton>
+                
+                <PaymentMethodButton 
+                  isActive={paymentMethod === 'debit'} 
+                  onClick={() => handlePaymentMethodSelect('debit')}
+                >
+                  <img src={debito} alt="Debit card" />
+                  Cartão de débito
+                </PaymentMethodButton>
+                
+                <PaymentMethodButton 
+                  isActive={paymentMethod === 'cash'} 
+                  onClick={() => handlePaymentMethodSelect('cash')}
+                >
+                  <img src={dinheiro} alt="Cash" />
+                  Dinheiro
+                </PaymentMethodButton>
+              </PaymentMethodsContainer>
+            </FormCard>
+          </FormsContainer>
+          
+          {/* Right Column - Cart Summary */}
+          <CartSummaryContainer>
+            {products.length > 0 ? (
+              <>
+                <CartItemsList>
+                  {products.map((product) => (
+                    <CartProductItem key={product.id} product={product} />
+                  ))}
+                </CartItemsList>
+                
+                <Divider />
+                
+                <CartSummary>
+                  <SummaryRow>
+                    <p>Total de itens</p>
+                    <p>R$ {subtotal.toFixed(2).replace('.', ',')}</p>
+                  </SummaryRow>
+                  
+                  <SummaryRow>
+                    <p>Entrega</p>
+                    <p>R$ {deliveryFee.toFixed(2).replace('.', ',')}</p>
+                  </SummaryRow>
+                  
+                  <SummaryRow>
+                    <strong>Total</strong>
+                    <strong>R$ {total.toFixed(2).replace('.', ',')}</strong>
+                  </SummaryRow>
+                </CartSummary>
+                
+                <CheckoutButton 
+                  onClick={goToSuccessPage}
+                  disabled={!paymentMethod}
+                >
+                  Confirmar pedido
+                </CheckoutButton>
+              </>
+            ) : (
+              <EmptyCartMessage>
+                <h3>Seu carrinho está vazio</h3>
+                <p>Adicione itens para continuar com a compra</p>
+                <Link to="/">Voltar para a loja</Link>
+              </EmptyCartMessage>
+            )}
+          </CartSummaryContainer>
+        </CheckoutGrid>
+      </CheckoutContainer>
+    </>
+  );
 }

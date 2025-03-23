@@ -1,67 +1,156 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { container, media, flexColumn } from '../../../theme';
 
-export const SuccessTitle = styled.h2`
-    margin: 2rem 10rem;
-    font-size: 200%;
-    color: var(--yellow-dark);
+export const SuccessContainer = styled.div`
+  ${container}
+  padding: 5rem 0;
+  
+  ${media.belowTablet`
+    padding: 3rem 0;
+  `}
+  
+  ${media.mobile`
+    padding: 2rem 0;
+  `}
+`;
 
-    p {
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: var(--base-title);
-    }
-`
+export const SuccessHeader = styled.div`
+  margin-bottom: 2.5rem;
+  
+  ${media.belowTablet`
+    text-align: center;
+  `}
+  
+  h1 {
+    font-size: 2rem;
+    color: ${({ theme }) => theme.colors.yellowDark};
+    margin-bottom: 0.25rem;
+    
+    ${media.mobile`
+      font-size: 1.5rem;
+    `}
+  }
+  
+  p {
+    font-size: 1.25rem;
+    color: ${({ theme }) => theme.colors.baseSubtitle};
+    
+    ${media.mobile`
+      font-size: 1rem;
+    `}
+  }
+`;
 
 export const SuccessContent = styled.div`
-    display: flex;
-    margin: 2rem 10rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+  
+  ${media.belowTablet`
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  `}
+`;
 
-    align-items: center;
-    justify-content: space-between;
-`
+export const OrderInfoCard = styled.div`
+  padding: 2.5rem;
+  border-radius: 6px 36px;
+  background: ${({ theme }) => theme.colors.white};
+  position: relative;
+  
+  /* Create gradient border */
+  &:before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    z-index: -1;
+    border-radius: 7px 37px;
+    background: linear-gradient(135deg, ${({ theme }) => theme.colors.yellow}, ${({ theme }) => theme.colors.purple});
+  }
+  
+  ${media.belowTablet`
+    max-width: 100%;
+  `}
+`;
 
-export const ResumeContainer = styled.div`
-    display: flex;
-    flex-direction: column;
+export const OrderInfoList = styled.div`
+  ${flexColumn}
+  gap: 2rem;
+`;
+
+export const OrderInfoItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`;
+
+export const IconContainer = styled.div<{ bgColor: string }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: ${({ bgColor, theme }) => {
+    switch (bgColor) {
+      case 'purple': return theme.colors.purple;
+      case 'yellow': return theme.colors.yellow;
+      default: return theme.colors.yellowDark;
+    }
+  }};
+  
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
+`;
+
+export const InfoText = styled.div`
+  ${flexColumn}
+  
+  p {
+    color: ${({ theme }) => theme.colors.baseText};
     
-    border: 2px solid transparent;
-    border-radius: 0.3rem 3rem;
-    background: linear-gradient(var(--white), var(--white)) padding-box,
-                linear-gradient(45deg, var(--yellow), var(--purple)) border-box;
-    padding-top: 1rem;
-    
-    .locale {
-        background-color: var(--purple);
-        padding: 6px;
-        border-radius: 100%;
-    }
-
-    .timer {
-        background-color: var(--yellow);
-        padding: 6px;
-        border-radius: 100%;
-    }
-
-    .dollar {
-        background-color: var(--yellow-dark);
-        padding: 6px;
-        border-radius: 100%;
-    }
-`
-
-export const InfoSuccess = styled.div`
-    display: flex;
-    align-items: center;
-    margin: 0.5rem 2rem;
-    padding-right: 100px;
-    gap: 1rem;
-
-    p {
-        color: var(--base-text);
-        font-weight: 300;
-    }
-
     span {
-        font-weight: 650;
+      font-weight: 700;
     }
-`
+  }
+`;
+
+export const IllustrationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  
+  img {
+    max-width: 100%;
+    
+    ${media.belowTablet`
+      max-width: 80%;
+    `}
+  }
+`;
+
+export const ReturnButton = styled.button`
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.75rem 2.5rem;
+  background-color: ${({ theme }) => theme.colors.yellow};
+  color: ${({ theme }) => theme.colors.white};
+  border: none;
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.yellowDark};
+  }
+  
+  ${media.belowTablet`
+    width: 100%;
+  `}
+`;

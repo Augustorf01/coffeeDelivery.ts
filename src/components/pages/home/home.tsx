@@ -1,32 +1,28 @@
-import { Introduction } from "./introduction";
+import styled from "styled-components";
+import { container } from "../../../theme";
 import { NavBar } from "../../compartilhados/navbar";
-import { ProductList } from "./product-list";
+import { Introduction } from "./introduction";
+import { ProductCardComponent } from "./product-list";
 import { ProductModel } from "../../compartilhados/product";
-import { ContainerList, Titlecard } from "../../styles/home/product-list.style";
 
-export function HomePage() {
-    return (
-        <div>
-            <NavBar />
-            <Introduction />
+const HomeContainer = styled.div`
+  width: 100%;
+`;
 
-            <Titlecard>
-                Nossos cafés
-            </Titlecard>
+const MainContent = styled.main`
+  ${container}
+`;
 
-            <ContainerList>
-                {ProductModel.map((p) => (
-                    <ProductList 
-                        id={p.id}
-                        ilustration={p.ilustration}
-                        name={p.name} 
-                        type={p.type}
-                        price={p.price}
-                        description={p.description}
-                        key={p.id} 
-                    />
-                ))}
-            </ContainerList>
-        </div>
-    )
+export const HomePage = () => {
+  return (
+    <HomeContainer>
+      <NavBar />
+      <MainContent>
+        <Introduction />
+        {ProductModel.map((product) => (
+          <ProductCardComponent key={product.id} product={product} />
+        ))}
+      </MainContent>
+    </HomeContainer>
+  );
 }

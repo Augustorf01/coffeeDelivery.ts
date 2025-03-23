@@ -1,31 +1,55 @@
-import shop from '../../assets/icons/shop-icon.svg'
-import logo from '../../assets/coffee-delivery.svg'
-import location from '../../assets/icons/location.svg'
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../redux';
 
-import { NavBarContainer } from '../styles/compartilhados/navbar.styles'
-import { useNavigate } from 'react-router-dom'
+// Assets
+import shop from '../../assets/icons/shop-icon.svg';
+import logo from '../../assets/coffee-delivery.svg';
+import location from '../../assets/icons/location.svg';
+
+// Styles
+import { 
+  NavBarContainer, 
+  LogoContainer, 
+  ActionsContainer, 
+  LocationBadge, 
+  CartButton,
+  CartCounter
+} from '../styles/compartilhados/navbar';
 
 export function NavBar() {
-    const nevigate = useNavigate()
+    const navigate = useNavigate();
+    const { totalItems, toggleCartSidebar } = useCart();
 
     const goToCheckout = () => {
-        nevigate('/checkout')
-    }
+        navigate('/checkout');
+    };
+
+    const goToHome = () => {
+        navigate('/');
+    };
 
     return (
-        <NavBarContainer>
-            <img src={logo} alt="" />
-            
-            <div>
-                <p className='address'>
-                    <img src={location} alt="Endereço" />
-                    <span>Av. Atlântica 2303</span>
-                </p>
 
-                <button className='buttonCheckout' onClick={goToCheckout}>
-                    <img src={shop} alt="Carrinho" />
-                </button>
-            </div>
-        </NavBarContainer>
-    )
+        <div onClick={toggleCartSidebar}>
+            <NavBarContainer>
+                <LogoContainer>
+                    <img src={logo} alt="Coffee Delivery" onClick={goToHome} style={{ cursor: 'pointer' }} />
+                </LogoContainer>
+                
+                <ActionsContainer>
+                    <LocationBadge>
+                        <img src={location} alt="Location icon" />
+                        <span>Av. Atlântica 2303</span>
+                    </LocationBadge>
+
+                    <CartButton onClick={goToCheckout}>
+                        <img src={shop} alt="Shopping cart" />
+                        {totalItems > 0 && (
+                            <CartCounter>{totalItems}</CartCounter>
+                        )}
+                    </CartButton>
+                </ActionsContainer>
+            </NavBarContainer>
+        </div>
+    );
 }

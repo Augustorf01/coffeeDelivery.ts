@@ -1,59 +1,52 @@
-import { IntroductionContainer } from '../../styles/home/introduction.styles'
-import introduction from '../../../assets/introduction-image.svg' // imagem da introdução
+import introduction from '../../../assets/introduction-image.svg';
+import shopwhite from '../../../assets/icons/shop-white.svg';
+import embalagem from '../../../assets/icons/embalagem.svg';
+import timer from '../../../assets/icons/timer.svg';
+import xicara from '../../../assets/icons/xicara.svg';
 
-import shopwhite from '../../../assets/icons/shop-white.svg'
-import embalagem from '../../../assets/icons/embalagem.svg'
-import timer from '../../../assets/icons/timer.svg'
-import xicara from '../../../assets/icons/xicara.svg'
+import {
+  IntroductionContainer,
+  IntroContent,
+  IntroImage,
+  BenefitsGrid,
+  BenefitItem,
+  IconContainer,
+  BenefitText
+} from '../../styles/home/introduction.styles';
 
 export function Introduction() {
+    const benefits = [
+        { icon: shopwhite, text: 'Compra simples e segura', color: 'yellow-dark' },
+        { icon: embalagem, text: 'Embalagem mantém o café intacto', color: 'base-text' },
+        { icon: timer, text: 'Entrega rápida e rastreada', color: 'yellow' },
+        { icon: xicara, text: 'O café chega fresquinho até você', color: 'purple' }
+    ];
+
     return (
         <IntroductionContainer>
-            <div className='title'>
+            <IntroContent>
                 <h1>
-                    Encontre o café perfeito 
-                    para qualquer hora do dia
+                    Encontre o café perfeito para qualquer hora do dia
                 </h1>
                 <p>
                     Com o Coffee Delivery você recebe seu café onde estiver, a qualquer hora
                 </p>
-            </div>
 
-            <img className="coffee" src={introduction} alt="Imagem da introdução" />
+                <BenefitsGrid>
+                    {benefits.map((benefit, index) => (
+                        <BenefitItem key={index}>
+                            <IconContainer bgColor={benefit.color}>
+                                <img src={benefit.icon} alt="" />
+                            </IconContainer>
+                            <BenefitText>{benefit.text}</BenefitText>
+                        </BenefitItem>
+                    ))}
+                </BenefitsGrid>
+            </IntroContent>
 
-            <table>
-                <tbody className='benefits'>
-                    
-                    <tr>
-                        <td>
-                            <img className='shopw' src={shopwhite} alt="" />
-                            <p>Compra simples e segura</p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <img className='embalagem' src={embalagem} alt="" />
-                            <p>Embalagem mantém o café intacto</p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <img className='relogio' src={timer} alt="" />
-                            <p>Entrega rápida e rastreada</p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <img className='xicara' src={xicara} alt="" />
-                            <p>O café chega até você</p>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
+            <IntroImage>
+                <img src={introduction} alt="Coffee cup with coffee beans" />
+            </IntroImage>
         </IntroductionContainer>
-    )
+    );
 }
